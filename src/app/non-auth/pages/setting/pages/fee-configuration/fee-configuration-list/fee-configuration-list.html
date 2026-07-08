@@ -1,0 +1,170 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Fee Configurations</h1>
+      <p class="page-subtitle">Configure base room pricing policies, deposit policies, grace windows, and transaction codes per hostel.</p>
+    </div>
+    <button class="btn btn-primary" [routerLink]="['/setting/fee-configuration/add']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add Configuration
+    </button>
+  </div>
+
+  <!-- Filters Card -->
+  <div class="filters-card">
+    <div class="filter-group-search">
+      <div class="input-search-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search by name, hostel or prefix..." />
+      </div>
+    </div>
+    <div class="filter-group-selects">
+      <div class="filter-actions">
+        <button class="btn btn-search" (click)="applyFilters()">Search</button>
+        <button class="btn btn-reset" (click)="resetFilters()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    <div class="table-responsive">
+      <table class="listing-table">
+        <thead>
+          <tr>
+            <th>Config ID</th>
+            <th>Policy Name</th>
+            <th>Hostel</th>
+            <th>Default Fee</th>
+            <th>Security Deposit</th>
+            <th>Late Fee / Day</th>
+            <th>Due Days</th>
+            <th>Prefix</th>
+            <th>Status</th>
+            <th class="actions-header">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic Row -->
+          @for(config of filteredConfigs; track config.id) {
+            <tr class="table-row">
+              <td>
+                <span style="font-family: monospace; font-weight: 600; font-size: 0.9rem; color: var(--primary-color);">{{ config.id }}</span>
+              </td>
+              <td>
+                <span style="font-weight: 600; color: var(--text-light-primary);">{{ config.name }}</span>
+              </td>
+              <td>
+                <span style="font-size: 0.85rem; font-weight: 500;">{{ config.hostelName }}</span>
+              </td>
+              <td>
+                <span style="font-family: var(--font-display); font-weight: 700; color: var(--text-light-primary);">
+                  {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.defaultHostelFee | number:'1.0-0' }}
+                </span>
+              </td>
+              <td>
+                <span style="font-family: var(--font-display); font-weight: 600; color: var(--text-light-secondary);">
+                  {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.securityDeposit | number:'1.0-0' }}
+                </span>
+              </td>
+              <td>
+                <span style="font-family: var(--font-display); font-weight: 600; color: #f43f5e;">
+                  {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.lateFeePerDay }}/day
+                </span>
+              </td>
+              <td>
+                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-light-primary);">{{ config.paymentDueDays }} Days</span>
+              </td>
+              <td>
+                <span style="font-family: monospace; font-weight: 600; font-size: 0.85rem; color: var(--text-light-muted);">{{ config.receiptPrefix }}</span>
+              </td>
+              <td>
+                <span class="status-badge" [class.active]="config.status === 'Active'" [class.inactive]="config.status === 'Inactive'">
+                  <span class="status-dot"></span>{{ config.status }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <button class="action-btn edit-btn" [routerLink]="['/setting/fee-configuration/view', config.id]" title="View Details">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+                <button class="action-btn edit-btn" [routerLink]="['/setting/fee-configuration/edit', config.id]" title="Edit Policy">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete-btn" (click)="openDeleteModal(config, $event)" title="Delete Policy">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="10" class="empty-state-cell">
+                <div class="empty-state-container">
+                  <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                  <h3>No Fee Policies Found</h3>
+                  <p>Configure your first hostel base fee, deposit and grace policies to start generating student fee logs.</p>
+                  <button class="btn btn-reset-empty" [routerLink]="['/setting/fee-configuration/add']">Add Policy Profile</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dialog -->
+@if (showDeleteModal) {
+  <div class="modal-overlay" (click)="closeDeleteModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Policy Configuration</h4>
+        <button class="modal-close-btn" (click)="closeDeleteModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-icon-wrapper">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+        <div class="modal-alert-content">
+          <p class="alert-message">Are you sure you want to delete this policy?</p>
+          <p class="alert-submessage">This will permanently delete the billing policy configuration "{{ configToDelete?.name }}" (Code: {{ configToDelete?.id }}).</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary-modal" (click)="closeDeleteModal()">Cancel</button>
+        <button class="btn btn-danger-modal" (click)="confirmDelete()">Delete Policy</button>
+      </div>
+    </div>
+  </div>
+}
+

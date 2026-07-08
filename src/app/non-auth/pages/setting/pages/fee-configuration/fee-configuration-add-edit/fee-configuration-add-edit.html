@@ -1,0 +1,149 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">{{ isEditMode ? 'Modify Fee Configuration' : 'Add Fee Configuration' }}</h1>
+      <p class="page-subtitle">Define room rates, security deposits, currency values, late penalties, and billing prefixes per hostel.</p>
+    </div>
+    <button class="btn btn-reset" [routerLink]="['/setting/fee-configuration']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to List
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="configForm" (ngSubmit)="onSubmit()" class="form-grid">
+      
+      <!-- Section 1: Policy Profile -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <h3 class="form-section-title">Policy Identity</h3>
+
+        <div class="form-group">
+          <label class="form-label">Policy Name <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="text" formControlName="name" class="form-control" [class.is-invalid]="configForm.get('name')?.invalid && (configForm.get('name')?.touched || submitted)" placeholder="Enter policy title (e.g. Bose Hall Policy)" />
+            @if (configForm.get('name')?.invalid && (configForm.get('name')?.touched || submitted)) {
+              <span class="error-text">Policy Name is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Hostel <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="hostelId" class="form-control" [class.is-invalid]="configForm.get('hostelId')?.invalid && (configForm.get('hostelId')?.touched || submitted)">
+                <option value="" disabled selected>Select Hostel Link</option>
+                @for(hostel of hostels; track hostel.id) {
+                  <option [value]="hostel.id">{{ hostel.name }}</option>
+                }
+              </select>
+            </div>
+            @if (configForm.get('hostelId')?.invalid && (configForm.get('hostelId')?.touched || submitted)) {
+              <span class="error-text">Hostel selection is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Currency <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="currency" class="form-control" [class.is-invalid]="configForm.get('currency')?.invalid && (configForm.get('currency')?.touched || submitted)">
+                @for(cur of currencies; track cur) {
+                  <option [value]="cur">{{ cur }}</option>
+                }
+              </select>
+            </div>
+            @if (configForm.get('currency')?.invalid && (configForm.get('currency')?.touched || submitted)) {
+              <span class="error-text">Currency is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Status <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="status" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Fee Parameters -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.25rem;">
+        <h3 class="form-section-title">Hostel Fee Parameters</h3>
+
+        <div class="form-group">
+          <label class="form-label">Default Hostel Fee <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="number" formControlName="defaultHostelFee" class="form-control" [class.is-invalid]="configForm.get('defaultHostelFee')?.invalid && (configForm.get('defaultHostelFee')?.touched || submitted)" placeholder="Enter base room rental fee" min="0" />
+            @if (configForm.get('defaultHostelFee')?.invalid && (configForm.get('defaultHostelFee')?.touched || submitted)) {
+              <span class="error-text">Default hostel fee is required and must be 0 or more.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Security Deposit <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="number" formControlName="securityDeposit" class="form-control" [class.is-invalid]="configForm.get('securityDeposit')?.invalid && (configForm.get('securityDeposit')?.touched || submitted)" placeholder="Enter caution security deposit" min="0" />
+            @if (configForm.get('securityDeposit')?.invalid && (configForm.get('securityDeposit')?.touched || submitted)) {
+              <span class="error-text">Security deposit is required and must be 0 or more.</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Fine Penalties & Intervals -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.25rem;">
+        <h3 class="form-section-title">Grace Windows & Fines</h3>
+
+        <div class="form-group">
+          <label class="form-label">Late Fee Per Day <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="number" formControlName="lateFeePerDay" class="form-control" [class.is-invalid]="configForm.get('lateFeePerDay')?.invalid && (configForm.get('lateFeePerDay')?.touched || submitted)" placeholder="Enter late penalty fine per day" min="0" />
+            @if (configForm.get('lateFeePerDay')?.invalid && (configForm.get('lateFeePerDay')?.touched || submitted)) {
+              <span class="error-text">Late fee per day is required and must be 0 or more.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Payment Due Days <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="number" formControlName="paymentDueDays" class="form-control" [class.is-invalid]="configForm.get('paymentDueDays')?.invalid && (configForm.get('paymentDueDays')?.touched || submitted)" placeholder="Days to pay bill after generation" min="0" />
+            @if (configForm.get('paymentDueDays')?.invalid && (configForm.get('paymentDueDays')?.touched || submitted)) {
+              <span class="error-text">Payment due days window is required and must be 0 or more.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Receipt Prefix <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="text" formControlName="receiptPrefix" class="form-control" [class.is-invalid]="configForm.get('receiptPrefix')?.invalid && (configForm.get('receiptPrefix')?.touched || submitted)" placeholder="e.g. REC-BH-" />
+            @if (configForm.get('receiptPrefix')?.invalid && (configForm.get('receiptPrefix')?.touched || submitted)) {
+              <span class="error-text">Receipt prefix is required.</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Policy' : 'Create Policy' }}</button>
+        <button type="button" class="btn btn-reset" [routerLink]="['/setting/fee-configuration']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+

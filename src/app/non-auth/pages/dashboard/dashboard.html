@@ -1,0 +1,175 @@
+<div class="dashboard-container">
+  <!-- Dashboard Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Dashboard Overview</h1>
+      <p class="page-subtitle">Real-time statistics and details for the Hostel Management System.</p>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <!-- Card 1: Total Students -->
+    <div class="stats-card" [routerLink]="['/student']" style="cursor: pointer;">
+      <div class="stats-content">
+        <div class="stats-icon students-icon-bg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm14 10v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stats-info">
+          <span class="stats-value">{{ totalStudents }}</span>
+          <span class="stats-label">Total Students</span>
+        </div>
+      </div>
+      <div class="stats-footer">
+        <span class="stats-footer-text">Registered in portal database</span>
+      </div>
+    </div>
+
+    <!-- Card 2: Total Rooms -->
+    <div class="stats-card" [routerLink]="['/room-allocation']" style="cursor: pointer;">
+      <div class="stats-content">
+        <div class="stats-icon rooms-icon-bg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4v16M2 8h18a2 2 0 012 2v10M2 17h20M6 8v9" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stats-info">
+          <span class="stats-value">{{ totalRooms }}</span>
+          <span class="stats-label">Total Rooms</span>
+        </div>
+      </div>
+      <div class="stats-footer">
+        <span class="status-indicator-dot online"></span>
+        <span class="stats-footer-text font-medium text-primary">All Blocks Active</span>
+      </div>
+    </div>
+
+    <!-- Card 3: Occupied Rooms -->
+    <div class="stats-card" [routerLink]="['/room-allocation']" style="cursor: pointer;">
+      <div class="stats-content">
+        <div class="stats-icon occupied-icon-bg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4v16M2 8h18a2 2 0 012 2v10M2 17h20M6 8v9" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stats-info">
+          <span class="stats-value">{{ occupiedRooms }}</span>
+          <span class="stats-label">Occupied Rooms</span>
+        </div>
+      </div>
+      <div class="stats-footer">
+        <span class="stats-footer-text">Rooms with at least 1 resident</span>
+      </div>
+    </div>
+
+    <!-- Card 4: Vacant Rooms -->
+    <div class="stats-card" [routerLink]="['/room-allocation']" style="cursor: pointer;">
+      <div class="stats-content">
+        <div class="stats-icon vacant-icon-bg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3M15.5 7.5L18 5"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stats-info">
+          <span class="stats-value">{{ vacantRooms }}</span>
+          <span class="stats-label">Vacant Rooms</span>
+        </div>
+      </div>
+      <div class="stats-footer">
+        <span class="stats-footer-text">Ready for allocation</span>
+      </div>
+    </div>
+
+    <!-- Card 5: Pending Fees -->
+    <div class="stats-card" [routerLink]="['/fee']" style="cursor: pointer;">
+      <div class="stats-content">
+        <div class="stats-icon pending-icon-bg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stats-info">
+          <span class="stats-value">₹{{ pendingFees | number }}</span>
+          <span class="stats-label">Pending Fees</span>
+        </div>
+      </div>
+      <div class="stats-footer">
+        <span class="stats-footer-text">{{ pendingStudentsCount }} students outstanding</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Sections Grid -->
+  <div class="dashboard-details-grid">
+    <!-- Recent Activity Widget -->
+    <div class="detail-panel">
+      <div class="panel-header">
+        <h3 class="panel-title">Hostel Activity Log</h3>
+      </div>
+      <div class="panel-body">
+        <div class="activity-timeline">
+          @for(act of recentAllocations; track act.id) {
+          <div class="timeline-item">
+            <div class="timeline-badge create-bg"></div>
+            <div class="timeline-content">
+              <span class="activity-text">
+                Room <strong>{{ act.roomNumber }}</strong> in <strong>{{ act.hostelName }}</strong> allocated to student
+                <strong>{{ act.studentName }}</strong>
+              </span>
+              <span class="activity-time">Check-in: {{ act.checkInDate }} ({{ act.status }})</span>
+            </div>
+          </div>
+          } @empty {
+          <div style="padding: 2rem; text-align: center; color: var(--text-light-muted);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.5rem; opacity: 0.5;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>No active student room allocations found.</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Rooms Overview -->
+    <div class="detail-panel">
+      <div class="panel-header">
+        <h3 class="panel-title">Hostel Bed Occupancy</h3>
+      </div>
+      <div class="panel-body">
+        <div class="role-list">
+          @for(hostel of hostelOccupancy; track hostel.id) {
+          <div class="role-item">
+            <div class="role-desc">
+              <span class="role-name">{{ hostel.name }} ({{ hostel.type }})</span>
+              <span class="role-desc-text">{{ hostel.description }}</span>
+            </div>
+            <span class="role-badge" [class.admin]="hostel.occupied < hostel.capacity"
+              [class.inactive]="hostel.occupied >= hostel.capacity">
+              {{ hostel.occupied }} / {{ hostel.capacity }} Beds
+            </span>
+          </div>
+          } @empty {
+          <div style="padding: 2rem; text-align: center; color: var(--text-light-muted);">
+            <p>No hostels found.</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">{{ isEditMode ? 'Modify Fee Template' : 'Create Fee Template' }}</h1>
+      <p class="page-subtitle">Configure basic information, amounts, and billing intervals for hostel fees.</p>
+    </div>
+    <button class="btn btn-reset" [routerLink]="['/fee']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to List
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="feeForm" (ngSubmit)="onSubmit()" class="form-grid">
+      <!-- Section 1: Basic Information -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <h3 class="form-section-title">Basic Information</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Fee Name <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="text" formControlName="name" class="form-control" [class.is-invalid]="feeForm.get('name')?.invalid && (feeForm.get('name')?.touched || submitted)" placeholder="Enter fee name (e.g. FY2026 Hostel Rent)" />
+            @if (feeForm.get('name')?.invalid && (feeForm.get('name')?.touched || submitted)) {
+              <span class="error-text">Fee Name is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Hostel <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="hostelId" class="form-control" [class.is-invalid]="feeForm.get('hostelId')?.invalid && (feeForm.get('hostelId')?.touched || submitted)">
+                <option value="" disabled selected>Select Hostel</option>
+                @for(hostel of hostels; track hostel.id) {
+                  <option [value]="hostel.id">{{ hostel.name }}</option>
+                }
+              </select>
+            </div>
+            @if (feeForm.get('hostelId')?.invalid && (feeForm.get('hostelId')?.touched || submitted)) {
+              <span class="error-text">Hostel is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Fee Type <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="type" class="form-control" [class.is-invalid]="feeForm.get('type')?.invalid && (feeForm.get('type')?.touched || submitted)">
+                <option value="" disabled selected>Select Fee Type</option>
+                @for(type of feeTypeList; track type) {
+                  <option [value]="type">{{ type }}</option>
+                }
+              </select>
+            </div>
+            @if (feeForm.get('type')?.invalid && (feeForm.get('type')?.touched || submitted)) {
+              <span class="error-text">Fee Type is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Amount (₹) <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="number" formControlName="amount" class="form-control" [class.is-invalid]="feeForm.get('amount')?.invalid && (feeForm.get('amount')?.touched || submitted)" placeholder="Enter amount in Rupees" min="1" />
+            @if (feeForm.get('amount')?.invalid && (feeForm.get('amount')?.touched || submitted)) {
+              <span class="error-text">Please enter a valid amount greater than 0.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Frequency <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="frequency" class="form-control" [class.is-invalid]="feeForm.get('frequency')?.invalid && (feeForm.get('frequency')?.touched || submitted)">
+                <option value="" disabled selected>Select Frequency</option>
+                @for(freq of frequencyList; track freq) {
+                  <option [value]="freq">{{ freq }}</option>
+                }
+              </select>
+            </div>
+            @if (feeForm.get('frequency')?.invalid && (feeForm.get('frequency')?.touched || submitted)) {
+              <span class="error-text">Billing frequency is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Status <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="status" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <div class="form-control-wrapper">
+            <textarea formControlName="description" class="form-control" rows="4" placeholder="Enter details about this fee category, terms or calculation guidelines..." style="resize: vertical;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Template' : 'Save Fee Layout' }}</button>
+        <button type="button" class="btn btn-reset" [routerLink]="['/fee']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+

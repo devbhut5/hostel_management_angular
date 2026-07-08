@@ -1,0 +1,14 @@
+// Delete Dialog component-specific styling enhancements
+.alert-icon-wrapper {
+  animation: pulseGlow 2s infinite ease-in-out;
+  
+  svg {
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover svg {
+    transform: rotate(15deg) scale(1.1);
+  }
+}
+
+// Fade/Scale entry transitions are handled by global utility animations

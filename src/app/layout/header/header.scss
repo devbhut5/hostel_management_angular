@@ -1,0 +1,214 @@
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  height: 70px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f1f5f9;
+  }
+}
+
+.user-profile-container {
+  position: relative;
+  z-index: 1001; /* Must sit above backdrop */
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  transition: var(--transition-fast);
+  user-select: none;
+
+  &:hover {
+    background-color: #f1f5f9;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    
+    .user-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-light-primary);
+      line-height: 1.2;
+    }
+
+    .user-role {
+      font-size: 0.75rem;
+      color: var(--text-light-muted);
+      font-weight: 500;
+      line-height: 1.2;
+      margin-top: 0.125rem;
+    }
+  }
+
+  .chevron-icon {
+    color: var(--text-light-muted);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+/* Profile Dropdown Card */
+.profile-dropdown-card {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 290px;
+  background-color: #ffffff;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  z-index: 1002;
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+
+  .dropdown-header {
+    background-color: var(--primary-color);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .dropdown-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+
+    .dropdown-user-info {
+      display: flex;
+      flex-direction: column;
+
+      .dropdown-user-name {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.2;
+      }
+
+      .dropdown-user-role {
+        font-size: 0.775rem;
+        color: #b0c4de; /* soft light blue-grey */
+        font-weight: 500;
+        margin-top: 0.175rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .dropdown-body {
+    padding: 1.25rem;
+    background-color: #ffffff;
+
+    .logout-btn {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: #ef4444; /* red indicator matching reference */
+      color: #ffffff;
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+      transition: var(--transition-fast);
+
+      svg {
+        transition: transform 0.2s ease;
+      }
+
+      &:hover {
+        background-color: #dc2626;
+        box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
+
+        svg {
+          transform: translateX(2px);
+        }
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}
+
+/* Backdrop for closing click-outside */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1000;
+  cursor: default;
+}

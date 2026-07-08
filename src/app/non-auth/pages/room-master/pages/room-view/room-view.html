@@ -1,0 +1,148 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <div class="back-link-wrapper" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <a [routerLink]="['/room']" style="color: var(--text-light-muted); display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; transition: var(--transition-fast);" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='var(--text-light-muted)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Rooms
+        </a>
+      </div>
+      <h1 class="page-title">Room 101</h1>
+      <div class="header-badges" style="display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center;">
+        <span class="role-badge admin">Double Sharing</span>
+        <span class="status-badge active"><span class="status-dot"></span>Available</span>
+        <span style="color: var(--text-light-muted); font-size: 0.85rem; font-weight: 500; margin-left: 0.5rem;">Bose Hall of Residence</span>
+      </div>
+    </div>
+    <div class="header-actions" style="display: flex; gap: 0.75rem;">
+      <button class="btn btn-reset" [routerLink]="['/room/edit', '101']">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Edit Room
+      </button>
+    </div>
+  </div>
+
+  <!-- Detail Content Grid -->
+  <div class="detail-grid">
+    <!-- Left Column: Details & Description -->
+    <div class="detail-main-col">
+      <!-- Room Allocation Stats -->
+      <div class="view-panel">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Beds Allocation</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="quick-stats-grid">
+            <div class="quick-stat-card">
+              <span class="stat-label">Total Beds</span>
+              <span class="stat-value">2</span>
+            </div>
+            <div class="quick-stat-card">
+              <span class="stat-label">Occupied Beds</span>
+              <span class="stat-value" style="color: #2563eb;">1</span>
+            </div>
+            <div class="quick-stat-card">
+              <span class="stat-label">Available Beds</span>
+              <span class="stat-value" style="color: #10b981;">1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facilities List -->
+      <div class="view-panel" style="margin-top: 1.5rem;">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Room Facilities</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="facilities-view-list">
+            <!-- Facility Item (Active) -->
+            <div class="facility-view-card active">
+              <span class="facility-status-icon check">✓</span>
+              <span class="facility-name">WiFi Internet</span>
+            </div>
+            <div class="facility-view-card active">
+              <span class="facility-status-icon check">✓</span>
+              <span class="facility-name">Air Conditioning (AC)</span>
+            </div>
+            <div class="facility-view-card active">
+              <span class="facility-status-icon check">✓</span>
+              <span class="facility-name">Attached Bathroom</span>
+            </div>
+            <div class="facility-view-card active">
+              <span class="facility-status-icon check">✓</span>
+              <span class="facility-name">Ceiling Fan</span>
+            </div>
+            <div class="facility-view-card active">
+              <span class="facility-status-icon check">✓</span>
+              <span class="facility-name">Cupboard</span>
+            </div>
+            <!-- Facility Item (Inactive) -->
+            <div class="facility-view-card inactive">
+              <span class="facility-status-icon cross">✗</span>
+              <span class="facility-name">Study Table</span>
+            </div>
+            <div class="facility-view-card inactive">
+              <span class="facility-status-icon cross">✗</span>
+              <span class="facility-name">Balcony</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Panel -->
+      <div class="view-panel" style="margin-top: 1.5rem;">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Description</h3>
+        </div>
+        <div class="view-panel-body">
+          <p class="description-text">
+            Comfortable double sharing room located on the first floor. Features modern styling, attached bathroom facilities, and high speed campus WiFi. Currently occupied by one student; one bed remains open for new booking.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Room Metadata -->
+    <div class="detail-side-col">
+      <div class="view-panel">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Room Specifications</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">Hostel Name</span>
+              <span class="info-value">Bose Hall of Residence</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Room Number</span>
+              <span class="info-value">101</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Floor Number</span>
+              <span class="info-value">1st Floor</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Room Type</span>
+              <span class="info-value">Double Sharing Room</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Status</span>
+              <span class="info-value">
+                <span class="status-badge active" style="margin-top: 0.25rem;"><span class="status-dot"></span>Available</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

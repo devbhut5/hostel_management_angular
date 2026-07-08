@@ -1,0 +1,115 @@
+<div class="user-list-container" *ngIf="config">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <div class="back-link-wrapper" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <a [routerLink]="['/setting/fee-configuration']" style="color: var(--text-light-muted); display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; transition: var(--transition-fast);" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='var(--text-light-muted)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Fee Policies
+        </a>
+      </div>
+      <h1 class="page-title">{{ config.name }}</h1>
+      <div class="header-badges" style="display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center;">
+        <span class="status-badge" [class.active]="config.status === 'Active'" [class.inactive]="config.status === 'Inactive'">
+          <span class="status-dot"></span>{{ config.status }}
+        </span>
+        <span style="color: var(--text-light-muted); font-size: 0.85rem; font-weight: 500; margin-left: 0.5rem;">ID: {{ config.id }}</span>
+      </div>
+    </div>
+    <div class="header-actions" style="display: flex; gap: 0.75rem;">
+      <button class="btn btn-reset" [routerLink]="['/setting/fee-configuration/edit', config.id]">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Edit Policy
+      </button>
+    </div>
+  </div>
+
+  <!-- Detail Grid -->
+  <div class="detail-grid">
+    <!-- Left Column: Specs -->
+    <div class="detail-main-col">
+      <!-- Identity Panel -->
+      <div class="view-panel">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Billing Policy Specifications</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="info-list">
+            <div class="info-item flex-row-item">
+              <div>
+                <span class="info-label">Policy Title</span>
+                <span class="info-value">{{ config.name }}</span>
+              </div>
+              <div>
+                <span class="info-label">Associated Hostel</span>
+                <span class="info-value" style="font-weight: 600;">{{ config.hostelName }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item flex-row-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+              <div>
+                <span class="info-label">Default Hostel Fee</span>
+                <span class="info-value" style="font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--primary-color);">
+                  {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.defaultHostelFee | number:'1.2-2' }}
+                </span>
+              </div>
+              <div>
+                <span class="info-label">Security Deposit</span>
+                <span class="info-value" style="font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--text-light-primary);">
+                  {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.securityDeposit | number:'1.2-2' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="info-item flex-row-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+              <div>
+                <span class="info-label">Default Currency</span>
+                <span class="info-value" style="font-weight: 600; font-family: monospace;">{{ config.currency }}</span>
+              </div>
+              <div>
+                <span class="info-label">Policy Status</span>
+                <span class="info-value">{{ config.status }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Fine Policy -->
+    <div class="detail-side-col">
+      <div class="view-panel">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Grace Windows & Fines</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">Late Fee Per Day</span>
+              <span class="info-value" style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: #f43f5e;">
+                {{ config.currency === 'INR' ? '₹' : config.currency }}{{ config.lateFeePerDay }}/day
+              </span>
+            </div>
+            
+            <div class="info-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+              <span class="info-label">Payment Due Days Window</span>
+              <span class="info-value" style="font-weight: 600;">{{ config.paymentDueDays }} Days <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-light-muted);">(Grace period)</span></span>
+            </div>
+
+            <div class="info-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+              <span class="info-label">Receipt Prefix</span>
+              <span class="info-value" style="font-family: monospace; font-weight: 600; letter-spacing: 0.5px; color: var(--primary-color);">{{ config.receiptPrefix }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

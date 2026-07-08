@@ -1,0 +1,17 @@
+// Room List Component Custom Styles
+.occupancy-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.occupancy-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-light-secondary);
+}
+
+.facilities-tags {
+  .role-badge {
+    text-transform: uppercase;
+  }
+}

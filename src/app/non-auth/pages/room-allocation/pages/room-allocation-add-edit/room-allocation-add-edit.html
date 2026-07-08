@@ -1,0 +1,230 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">{{ isEditMode ? 'Modify Allocation' : 'New Room Allocation' }}</h1>
+      <p class="page-subtitle">Allocate available rooms to registered students and set check-in details.</p>
+    </div>
+    <button class="btn btn-reset" [routerLink]="['/room-allocation']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to List
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form [formGroup]="allocationForm" (ngSubmit)="onSubmit()" class="form-grid">
+      <!-- Section 1: Student Information -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <h3 class="form-section-title">Student Information</h3>
+
+        <div class="form-group">
+          <label class="form-label">Student <span class="required-star">*</span></label>
+          <div class="form-control-wrapper" style="position: relative;">
+            <div style="position: relative; display: flex; align-items: center; width: 100%;">
+              <input type="text" [(ngModel)]="searchStudentQuery" [ngModelOptions]="{standalone: true}"
+                (focus)="toggleStudentDropdown(true)" (blur)="toggleStudentDropdown(false)" (input)="filterStudents()"
+                class="form-control"
+                [class.is-invalid]="allocationForm.get('studentId')?.invalid && (allocationForm.get('studentId')?.touched || submitted)"
+                placeholder="Search student by name or ID..." [disabled]="isEditMode" />
+              @if (selectedStudent && !isEditMode) {
+              <button type="button"
+                style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-light-muted); display: flex; align-items: center; justify-content: center; padding: 0.25rem;"
+                (click)="clearStudentSelection()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              }
+            </div>
+
+            @if (showStudentDropdown && filteredStudents.length > 0 && !isEditMode) {
+            <div class="search-dropdown-panel"
+              style="position: absolute; top: 100%; left: 0; right: 0; background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--border-radius-md); box-shadow: var(--shadow-lg); z-index: 100; max-height: 200px; overflow-y: auto; margin-top: 4px;">
+              @for(student of filteredStudents; track student.id) {
+              <div (mousedown)="selectStudent(student)"
+                style="padding: 0.75rem 1rem; cursor: pointer; transition: background 0.15s ease; border-bottom: 1px solid #f1f5f9; display: flex; flex-direction: column;"
+                onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+                <span style="font-size: 0.875rem; font-weight: 600; color: var(--text-light-primary);">{{
+                  student.firstName }} {{ student.lastName }}</span>
+                <span style="font-size: 0.75rem; color: var(--text-light-muted);">ID: {{ student.id }} • Course: {{
+                  student.course }}</span>
+              </div>
+              }
+            </div>
+            }
+
+            @if (allocationForm.get('studentId')?.invalid && (allocationForm.get('studentId')?.touched || submitted)) {
+            <span class="error-text">Please search and select a student.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Student ID</label>
+          <div class="form-control-wrapper">
+            <input type="text" formControlName="studentId" class="form-control" placeholder="Auto-filled" readonly
+              style="background-color: var(--bg-light-input); color: var(--text-light-muted); cursor: not-allowed;" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Course</label>
+          <div class="form-control-wrapper">
+            <input type="text" formControlName="course" class="form-control" placeholder="Auto-filled" readonly
+              style="background-color: var(--bg-light-input); color: var(--text-light-muted); cursor: not-allowed;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Hostel Information -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+        <h3 class="form-section-title">Hostel Information</h3>
+
+        <div class="form-group">
+          <label class="form-label">Hostel <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="hostelId" class="form-control"
+                (change)="onHostelChange(allocationForm.get('hostelId')?.value)"
+                [class.is-invalid]="allocationForm.get('hostelId')?.invalid && (allocationForm.get('hostelId')?.touched || submitted)">
+                <option value="" disabled selected>Select Hostel</option>
+                @for(hostel of hostels; track hostel.id) {
+                <option [value]="hostel.id">{{ hostel.name }} ({{ hostel.type }})</option>
+                }
+              </select>
+            </div>
+            @if (allocationForm.get('hostelId')?.invalid && (allocationForm.get('hostelId')?.touched || submitted)) {
+            <span class="error-text">Hostel is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Room <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="roomNumber" class="form-control"
+                (change)="onRoomChange(allocationForm.get('roomNumber')?.value)"
+                [class.is-invalid]="allocationForm.get('roomNumber')?.invalid && (allocationForm.get('roomNumber')?.touched || submitted)"
+                [disabled]="!allocationForm.get('hostelId')?.value">
+                <option value="" disabled selected>Select Room</option>
+                @for(room of filteredRooms; track room.roomNumber) {
+                <option [value]="room.roomNumber">Room {{ room.roomNumber }}</option>
+                }
+              </select>
+            </div>
+            @if (allocationForm.get('roomNumber')?.invalid && (allocationForm.get('roomNumber')?.touched || submitted))
+            {
+            <span class="error-text">Room selection is required.</span>
+            }
+          </div>
+        </div>
+
+        <!-- Read Only Statistics -->
+        @if (selectedRoomStats) {
+        <div class="form-group">
+          <label class="form-label">Room Occupancy</label>
+          <div class="form-control-wrapper">
+            <div class="room-stats-grid"
+              style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%;">
+              <div class="room-stat-box"
+                style="background-color: var(--bg-light); border: 1px solid var(--border-light); border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center;">
+                <span
+                  style="font-size: 0.7rem; font-weight: 600; color: var(--text-light-muted); text-transform: uppercase;">Capacity</span>
+                <span
+                  style="display: block; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-light-primary); margin-top: 0.25rem;">{{
+                  selectedRoomStats.capacity }} Beds</span>
+              </div>
+              <div class="room-stat-box"
+                style="background-color: var(--bg-light); border: 1px solid var(--border-light); border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center;">
+                <span
+                  style="font-size: 0.7rem; font-weight: 600; color: var(--text-light-muted); text-transform: uppercase;">Occupied</span>
+                <span
+                  style="display: block; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-light-primary); margin-top: 0.25rem;">{{
+                  selectedRoomStats.occupied }} Beds</span>
+              </div>
+              <div class="room-stat-box"
+                style="background-color: var(--bg-light); border: 1px solid var(--border-light); border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center;"
+                [style.border-color]="selectedRoomStats.available === 0 ? '#f43f5e' : 'var(--border-light)'">
+                <span
+                  style="font-size: 0.7rem; font-weight: 600; color: var(--text-light-muted); text-transform: uppercase;">Available</span>
+                <span
+                  style="display: block; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-top: 0.25rem;"
+                  [style.color]="selectedRoomStats.available === 0 ? '#f43f5e' : 'var(--accent-teal)'">{{
+                  selectedRoomStats.available }} Beds</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Section 3: Allocation Information -->
+      <div class="form-section" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+        <h3 class="form-section-title">Allocation Information</h3>
+
+        <div class="form-group">
+          <label class="form-label">Check-In Date <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="date" formControlName="checkInDate" class="form-control"
+              [class.is-invalid]="allocationForm.get('checkInDate')?.invalid && (allocationForm.get('checkInDate')?.touched || submitted)" />
+            @if (allocationForm.get('checkInDate')?.invalid && (allocationForm.get('checkInDate')?.touched ||
+            submitted)) {
+            <span class="error-text">Check-in date is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Expected Check-Out Date <span class="required-star">*</span></label>
+          <div class="form-control-wrapper">
+            <input type="date" formControlName="expectedCheckOutDate" class="form-control"
+              [class.is-invalid]="allocationForm.get('expectedCheckOutDate')?.invalid && (allocationForm.get('expectedCheckOutDate')?.touched || submitted)" />
+            @if (allocationForm.get('expectedCheckOutDate')?.invalid &&
+            (allocationForm.get('expectedCheckOutDate')?.touched || submitted)) {
+            <span class="error-text">
+              @if (allocationForm.get('expectedCheckOutDate')?.errors?.['required']) { Check-out date is required. }
+              @if (allocationForm.get('expectedCheckOutDate')?.errors?.['dateLessThan']) { Check-out date must be after
+              check-in date. }
+            </span>
+            }
+          </div>
+        </div>
+
+        @if (isEditMode) {
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <div class="form-control-wrapper">
+            <div class="form-select-wrapper">
+              <select formControlName="status" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Checked Out">Checked Out</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        }
+
+        <div class="form-group">
+          <label class="form-label">Remarks</label>
+          <div class="form-control-wrapper">
+            <textarea formControlName="remarks" class="form-control" rows="3"
+              placeholder="Enter optional notes or allocation remarks..." style="resize: vertical;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Allocation' : 'Allocate Room' }}</button>
+        <button type="button" class="btn btn-reset" [routerLink]="['/room-allocation']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

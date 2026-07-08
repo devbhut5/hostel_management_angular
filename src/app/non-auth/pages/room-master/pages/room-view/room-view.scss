@@ -1,0 +1,168 @@
+// Room View Component Custom Styles
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+.view-panel {
+  background-color: var(--bg-light-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.view-panel-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+  
+  .view-panel-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+}
+
+.view-panel-body {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+// Quick Stats Grid
+.quick-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.quick-stat-card {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: var(--transition-all);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    background-color: #ffffff;
+    border-color: var(--primary-light);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.375rem;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light-primary);
+  }
+}
+
+// Facilities View Grid
+.facilities-view-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.facility-view-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: var(--transition-fast);
+
+  &.active {
+    border-color: rgba(16, 185, 129, 0.2);
+    background-color: rgba(16, 185, 129, 0.02);
+    
+    .facility-status-icon {
+      color: #10b981;
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+  }
+
+  &.inactive {
+    border-color: var(--border-light);
+    background-color: var(--bg-light);
+    opacity: 0.65;
+    
+    .facility-status-icon {
+      color: var(--text-light-muted);
+      background-color: var(--bg-light-input);
+    }
+  }
+
+  .facility-status-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  
+  .facility-name {
+    color: var(--text-light-primary);
+  }
+}
+
+// Info List
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .info-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .info-value {
+    font-size: 0.925rem;
+    font-weight: 500;
+    color: var(--text-light-primary);
+  }
+}
+
+.description-text {
+  font-size: 0.925rem;
+  color: var(--text-light-secondary);
+  line-height: 1.6;
+}
