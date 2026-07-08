@@ -1,0 +1,221 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Hostels</h1>
+      <p class="page-subtitle">Manage all hostels, floors, occupancy capacities, and warden contacts.</p>
+    </div>
+    <button class="btn btn-primary" [routerLink]="['/hostel/add']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add Hostel
+    </button>
+  </div>
+
+  <!-- Filters Card -->
+  <div class="filters-card">
+    <div class="filter-group-search">
+      <div class="input-search-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search by hostel name, code, city or warden..." />
+      </div>
+    </div>
+    <div class="filter-group-selects">
+      <div class="select-wrapper">
+        <select>
+          <option value="">All Types</option>
+          <option value="Boys">Boys</option>
+          <option value="Girls">Girls</option>
+          <option value="Both">Both (Co-Ed)</option>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select>
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-search">Search</button>
+        <button class="btn btn-reset">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hostel Table Card -->
+  <div class="table-card">
+    <div class="table-responsive">
+      <table class="listing-table">
+        <thead>
+          <tr>
+            <th>Hostel Name & Code</th>
+            <th>Hostel Type</th>
+            <th>Total Floors</th>
+            <th>Total Rooms</th>
+            <th>Total Capacity</th>
+            <th>Warden Details</th>
+            <th>Status</th>
+            <th class="actions-header">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Mock Hostel 1 -->
+          <tr class="table-row">
+            <td>
+              <div class="user-info-cell">
+                <div class="avatar" style="background-color: #233e5b;">BH</div>
+                <div class="user-meta">
+                  <span class="user-name">Bose Hall of Residence</span>
+                  <span class="user-email">Code: BH-01</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="role-badge admin">Boys</span>
+            </td>
+            <td>4</td>
+            <td>80</td>
+            <td>160 Beds</td>
+            <td>
+              <div class="user-meta">
+                <span class="user-name" style="font-size: 0.85rem;">Dr. Ramesh Verma</span>
+                <span class="user-email" style="font-size: 0.75rem;">+91 98765 43210</span>
+              </div>
+            </td>
+            <td>
+              <span class="status-badge active"><span class="status-dot"></span>Active</span>
+            </td>
+            <td class="actions-cell">
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/view', 'BH-01']" title="View Details">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/edit', 'BH-01']" title="Edit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete-btn" title="Delete">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </td>
+          </tr>
+
+          <!-- Mock Hostel 2 -->
+          <tr class="table-row">
+            <td>
+              <div class="user-info-cell">
+                <div class="avatar" style="background-color: #6366f1;">GH</div>
+                <div class="user-meta">
+                  <span class="user-name">Gargi Hall of Residence</span>
+                  <span class="user-email">Code: GH-02</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="role-badge editor">Girls</span>
+            </td>
+            <td>3</td>
+            <td>60</td>
+            <td>120 Beds</td>
+            <td>
+              <div class="user-meta">
+                <span class="user-name" style="font-size: 0.85rem;">Dr. Sunita Sharma</span>
+                <span class="user-email" style="font-size: 0.75rem;">+91 87654 32109</span>
+              </div>
+            </td>
+            <td>
+              <span class="status-badge active"><span class="status-dot"></span>Active</span>
+            </td>
+            <td class="actions-cell">
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/view', 'GH-02']" title="View Details">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/edit', 'GH-02']" title="Edit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete-btn" title="Delete">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </td>
+          </tr>
+
+          <!-- Mock Hostel 3 -->
+          <tr class="table-row">
+            <td>
+              <div class="user-info-cell">
+                <div class="avatar" style="background-color: #8b5cf6;">PH</div>
+                <div class="user-meta">
+                  <span class="user-name">Patel PG Block</span>
+                  <span class="user-email">Code: PH-03</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="role-badge viewer">Both (Co-Ed)</span>
+            </td>
+            <td>2</td>
+            <td>30</td>
+            <td>30 Beds</td>
+            <td>
+              <div class="user-meta">
+                <span class="user-name" style="font-size: 0.85rem;">Prof. Amit Patel</span>
+                <span class="user-email" style="font-size: 0.75rem;">+91 76543 21098</span>
+              </div>
+            </td>
+            <td>
+              <span class="status-badge inactive"><span class="status-dot"></span>Inactive</span>
+            </td>
+            <td class="actions-cell">
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/view', 'PH-03']" title="View Details">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button class="action-btn edit-btn" [routerLink]="['/hostel/edit', 'PH-03']" title="Edit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete-btn" title="Delete">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

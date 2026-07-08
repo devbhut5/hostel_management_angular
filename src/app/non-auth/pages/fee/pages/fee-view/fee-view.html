@@ -1,0 +1,156 @@
+<div class="user-list-container" *ngIf="feeData">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <div class="back-link-wrapper" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <a [routerLink]="['/fee']" style="color: var(--text-light-muted); display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem; text-decoration: none; font-weight: 500; transition: var(--transition-fast);" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='var(--text-light-muted)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Fee Structures
+        </a>
+      </div>
+      <h1 class="page-title">{{ feeData.name }}</h1>
+      <div class="header-badges" style="display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center;">
+        <span class="status-badge" [class.active]="feeData.status === 'Active'" [class.inactive]="feeData.status === 'Inactive'">
+          <span class="status-dot"></span>{{ feeData.status }}
+        </span>
+        <span style="color: var(--text-light-muted); font-size: 0.85rem; font-weight: 500; margin-left: 0.5rem;">Fee ID: {{ feeData.id }}</span>
+      </div>
+    </div>
+    <div class="header-actions" style="display: flex; gap: 0.75rem;">
+      <button class="btn btn-reset" [routerLink]="['/fee/edit', feeData.id]">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Edit Template
+      </button>
+    </div>
+  </div>
+
+  <!-- Detail Content Grid -->
+  <div class="detail-grid">
+    <!-- Left Column: Basic configuration and stats summary -->
+    <div class="detail-main-col">
+      <!-- Configuration Details -->
+      <div class="view-panel">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Template Configuration</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="info-list">
+            <div class="info-item flex-row-item">
+              <div>
+                <span class="info-label">Hostel Link</span>
+                <span class="info-value">{{ feeData.hostelName }}</span>
+              </div>
+              <div>
+                <span class="info-label">Fee Type</span>
+                <span class="info-value" style="font-weight: 600;">{{ feeData.type }}</span>
+              </div>
+            </div>
+            <div class="info-item flex-row-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+              <div>
+                <span class="info-label">Standard Amount</span>
+                <span class="info-value" style="font-weight: 700; color: var(--primary-color);">₹{{ feeData.amount | number:'1.2-2' }}</span>
+              </div>
+              <div>
+                <span class="info-label">Frequency</span>
+                <span class="info-value">{{ feeData.frequency }}</span>
+              </div>
+            </div>
+            <div class="info-item" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;" *ngIf="feeData.description">
+              <span class="info-label">Description</span>
+              <p class="description-text">{{ feeData.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Metrics Panel -->
+      <div class="view-panel" style="margin-top: 1.5rem;">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Payment Summary Metrics</h3>
+        </div>
+        <div class="view-panel-body">
+          <div class="quick-stats-grid">
+            <div class="quick-stat-card">
+              <span class="stat-label">Total Allocated</span>
+              <span class="stat-value">₹{{ totalAllocated | number:'1.0-0' }}</span>
+              <span style="font-size: 0.75rem; color: var(--text-light-muted); margin-top: 0.25rem;">Across {{ payments.length }} Students</span>
+            </div>
+            <div class="quick-stat-card">
+              <span class="stat-label" style="color: var(--accent-teal);">Total Collected</span>
+              <span class="stat-value" style="color: var(--accent-teal);">₹{{ totalPaid | number:'1.0-0' }}</span>
+              <span style="font-size: 0.75rem; color: var(--text-light-muted); margin-top: 0.25rem;">{{ paidCount }} Payments Paid</span>
+            </div>
+            <div class="quick-stat-card" [style.border-color]="totalUnpaid > 0 ? '#f43f5e' : 'var(--border-light)'">
+              <span class="stat-label" [style.color]="totalUnpaid > 0 ? '#f43f5e' : 'var(--text-light-muted)'">Outstanding</span>
+              <span class="stat-value" [style.color]="totalUnpaid > 0 ? '#f43f5e' : 'var(--text-light-primary)'">₹{{ totalUnpaid | number:'1.0-0' }}</span>
+              <span style="font-size: 0.75rem; color: var(--text-light-muted); margin-top: 0.25rem;">{{ unpaidCount }} Pending Bills</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Student payment logs and statuses -->
+    <div class="detail-side-col">
+      <div class="view-panel" style="height: 100%;">
+        <div class="view-panel-header">
+          <h3 class="view-panel-title">Student Payment Status</h3>
+        </div>
+        <div class="view-panel-body" style="padding: 0;">
+          <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+            <table class="listing-table" style="box-shadow: none; border: none; border-radius: 0;">
+              <thead>
+                <tr>
+                  <th style="padding-left: 1.5rem;">Student</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                  <th style="padding-right: 1.5rem; text-align: right;">Paid Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(payment of payments; track payment.id) {
+                  <tr class="table-row">
+                    <td style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.15rem; border: none; align-items: flex-start; justify-content: center; height: 60px;">
+                      <span style="font-weight: 600; color: var(--text-light-primary); font-size: 0.875rem;">{{ payment.studentName }}</span>
+                      <span style="font-size: 0.75rem; color: var(--text-light-muted); font-family: monospace;">{{ payment.studentId }}</span>
+                    </td>
+                    <td style="border: none; font-size: 0.8rem; font-weight: 500; vertical-align: middle;">
+                      {{ payment.dueDate | date:'dd MMM yyyy' }}
+                    </td>
+                    <td style="border: none; vertical-align: middle;">
+                      <span class="status-badge" [class.active]="payment.status === 'Paid'" [class.inactive]="payment.status === 'Unpaid'">
+                        <span class="status-dot"></span>{{ payment.status }}
+                      </span>
+                    </td>
+                    <td style="padding-right: 1.5rem; text-align: right; border: none; display: flex; flex-direction: column; gap: 0.15rem; justify-content: center; height: 60px;">
+                      @if (payment.status === 'Paid') {
+                        <span style="font-family: var(--font-display); font-weight: 700; font-size: 0.875rem; color: var(--accent-teal);">₹{{ payment.paidAmount | number:'1.0-0' }}</span>
+                        <span style="font-size: 0.7rem; color: var(--text-light-muted);">Via {{ payment.paymentMethod }}</span>
+                      } @else {
+                        <span style="font-family: var(--font-display); font-weight: 700; font-size: 0.875rem; color: #f43f5e;">₹0</span>
+                        <span style="font-size: 0.7rem; color: var(--text-light-muted);">Unpaid</span>
+                      }
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="4" class="empty-state-cell" style="padding: 3rem 1.5rem; text-align: center;">
+                      <p style="font-size: 0.875rem; color: var(--text-light-muted); font-weight: 500;">No students allocated to this fee yet.</p>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

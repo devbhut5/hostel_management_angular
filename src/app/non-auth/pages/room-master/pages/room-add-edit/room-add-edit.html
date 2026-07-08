@@ -1,0 +1,147 @@
+<div class="user-list-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <h1 class="page-title">Add/Edit Room</h1>
+      <p class="page-subtitle">Configure room assignments, capacities, statuses, and optional facilities.</p>
+    </div>
+    <button class="btn btn-reset" [routerLink]="['/room']">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to List
+    </button>
+  </div>
+
+  <!-- Form Wrapper -->
+  <div class="form-card">
+    <form class="form-grid">
+      <!-- Section 1: Basic Details -->
+      <div class="form-section">
+        <h3 class="form-section-title">Basic Details</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Select Hostel <span class="required-star">*</span></label>
+          <div class="form-select-wrapper">
+            <select class="form-control" required>
+              <option value="" disabled selected>Select Hostel</option>
+              <option value="Bose Hall of Residence">Bose Hall of Residence</option>
+              <option value="Gargi Hall of Residence">Gargi Hall of Residence</option>
+              <option value="Patel PG Block">Patel PG Block</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Room Number <span class="required-star">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter room number (e.g. 101)" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Floor Number</label>
+          <input type="number" class="form-control" placeholder="Enter floor number (e.g. 1, 2)" min="0" />
+        </div>
+      </div>
+
+      <!-- Section 2: Room Details -->
+      <div class="form-section">
+        <h3 class="form-section-title">Room Details</h3>
+
+        <div class="form-group">
+          <label class="form-label">Room Type</label>
+          <div class="form-select-wrapper">
+            <select class="form-control">
+              <option value="Single Sharing">Single Sharing</option>
+              <option value="Double Sharing" selected>Double Sharing</option>
+              <option value="Triple Sharing">Triple Sharing</option>
+              <option value="Four Sharing">Four Sharing</option>
+              <option value="Dormitory">Dormitory</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Capacity (Beds)</label>
+          <input type="number" class="form-control" placeholder="Enter capacity" min="1" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Occupied Beds</label>
+          <input type="number" class="form-control" placeholder="Enter occupied beds" min="0" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Room Status</label>
+          <div class="form-select-wrapper">
+            <select class="form-control">
+              <option value="Available">Available</option>
+              <option value="Occupied">Occupied</option>
+              <option value="Under Maintenance">Under Maintenance</option>
+              <option value="Blocked">Blocked</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Optional Facilities -->
+      <div class="form-section">
+        <h3 class="form-section-title">Optional Facilities</h3>
+        
+        <div class="facilities-grid">
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            WiFi
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            AC
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Attached Bathroom
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Fan
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Cupboard
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Study Table
+          </label>
+          <label class="checkbox-container">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Balcony
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 4: Description -->
+      <div class="form-section">
+        <h3 class="form-section-title">Other Details</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="3" placeholder="Enter brief description about the room" style="resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Room</button>
+        <button type="button" class="btn btn-reset" [routerLink]="['/room']">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

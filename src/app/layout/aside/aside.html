@@ -1,0 +1,56 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="brand-logo">
+      <div class="logo-text">
+        <span class="main-title">Hostel</span>
+        <span class="sub-title">ADMIN PORTAL</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-nav-container">
+    <nav class="sidebar-nav">
+      <ul>
+        @for(menu of menuList; track $index) {
+          @if (menu.children && menu.children.length > 0) {
+            <li class="has-submenu" [class.submenu-open]="menu.isOpen">
+              <button (click)="toggleSubmenu(menu)" class="nav-item submenu-header" [class.active]="isParentActive(menu)">
+                <span class="nav-icon" [style.mask-image]="'url(/assets/media/images/' + menu.icon + '.svg)'"
+                  [style.-webkit-mask-image]="'url(/assets/media/images/' + menu.icon + '.svg)'"></span>
+                <span class="nav-text">{{ menu.label }}</span>
+                <span class="nav-caret">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="caret-icon">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+              
+              <ul class="submenu-list">
+                @for(child of menu.children; track $index) {
+                   <li>
+                    <a [routerLink]="child.routerLink" [class.active]="isRouteActive(child.routerLink)" class="nav-item sub-nav-item">
+                      <span class="nav-icon" [style.mask-image]="'url(/assets/media/images/' + child.icon + '.svg)'"
+                        [style.-webkit-mask-image]="'url(/assets/media/images/' + child.icon + '.svg)'"></span>
+                      <span class="nav-text">{{ child.label }}</span>
+                    </a>
+                  </li>
+                }
+              </ul>
+            </li>
+          } @else {
+            <li>
+              <a [routerLink]="menu.routerLink" [class.active]="isRouteActive(menu.routerLink)" class="nav-item">
+                <span class="nav-icon" [style.mask-image]="'url(/assets/media/images/' + menu.icon + '.svg)'"
+                  [style.-webkit-mask-image]="'url(/assets/media/images/' + menu.icon + '.svg)'"></span>
+                <span class="nav-text">{{ menu.label }}</span>
+              </a>
+            </li>
+          }
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="sidebar-footer">
+    <span class="version-text">v1.0.0</span>
+  </div>
+</aside>

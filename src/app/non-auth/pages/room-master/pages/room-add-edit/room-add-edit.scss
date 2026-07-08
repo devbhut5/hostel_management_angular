@@ -1,0 +1,91 @@
+// Room Add-Edit Component Custom Styles
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.form-section-title {
+  color: var(--primary-color);
+  font-size: 1.15rem;
+  border-bottom: 2px solid var(--primary-light);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 100%;
+}
+
+// Facilities Checkbox Grid
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+  max-width: 692px;
+}
+
+// Custom Checkbox
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 2rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-light-secondary);
+  user-select: none;
+  height: 24px;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-fast);
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 4px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &:hover input ~ .checkmark {
+    border-color: var(--primary-color);
+    background-color: var(--primary-light);
+  }
+
+  input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+
+    &::after {
+      display: block;
+    }
+  }
+}

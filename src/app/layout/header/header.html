@@ -1,0 +1,59 @@
+<header class="top-header">
+  <div class="header-left">
+    <!-- Left side of header is empty if the logo is part of the aside sidebar -->
+  </div>
+  <div class="header-right">
+    <!-- User Profile Dropdown Container -->
+    <div class="user-profile-container">
+      <div class="user-profile" (click)="toggleDropdown()">
+        <div class="avatar">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="12" fill="#cbd5e1" />
+            <circle cx="12" cy="8" r="4" fill="#94a3b8" />
+            <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" fill="#94a3b8" />
+          </svg>
+        </div>
+        <div class="user-info">
+          <span class="user-name">Admin</span>
+          <span class="user-role">Administrator</span>
+        </div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="chevron-icon" [class.rotated]="showDropdown"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <!-- Dropdown Card -->
+      @if (showDropdown) {
+      <div class="profile-dropdown-card">
+        <div class="dropdown-header">
+          <div class="dropdown-avatar">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="12" fill="#e2e8f0" />
+              <circle cx="12" cy="8" r="4" fill="#a4b5c6" />
+              <path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" fill="#a4b5c6" />
+            </svg>
+          </div>
+          <div class="dropdown-user-info">
+            <span class="dropdown-user-name">Admin</span>
+            <span class="dropdown-user-role">Administrator</span>
+          </div>
+        </div>
+        <div class="dropdown-body">
+          <button class="logout-btn" (click)="logout()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m4 13l4-4-4-4m4 4H9" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Backdrop overlay to close when clicking outside -->
+      <div class="dropdown-backdrop" (click)="toggleDropdown()"></div>
+      }
+    </div>
+  </div>
+</header>

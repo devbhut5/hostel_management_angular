@@ -1,0 +1,17 @@
+.app-footer {
+  padding: 1rem 2rem;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-content {
+  text-align: center;
+  
+  .copyright {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+}
